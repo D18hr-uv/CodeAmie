@@ -4,6 +4,7 @@ import Editor from "react-simple-code-editor";
 import prism from "prismjs";
 
 // Import required languages for Prism.js
+import 'prismjs/components/prism-markup-templating.js';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-python';

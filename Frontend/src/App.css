@@ -181,7 +181,7 @@ body {
   font-family: "Fira code", "Fira Mono", monospace !important; /* Ensure font props */
   font-size: 15px !important; /* Ensure font props */
   line-height: 1.5 !important; /* Consistent line height */
-  background-color: #0d1117 !important; /* Ensure background */
+  /* background-color: #0d1117 !important; Ensure background */
   color: #d4d4d4 !important; /* Ensure text color */
 }
 
