@@ -1,432 +1,237 @@
-/* Global Resets and Base Styles */
-html, body { /* Ensure body takes full viewport height for sticky footer */
+/* App.css */
+
+html, body, #root {
   height: 100%;
-}
-
-body {
+  width: 100%;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #0d1117; /* GitHub dark background */
-  color: #c9d1d9; /* GitHub dark text */
+  padding: 0;
+  font-family: 'Fira Code', monospace;
+  background-color: #0e0e0e;
+  color: #f0f0f0;
 }
 
-#root { /* Ensure root also takes full height */
-  min-height: 100%;
-  display: flex; /* Allow app-container to use flexbox for height */
-}
-
-
-*, *::before, *::after {
-  box-sizing: border-box; /* Changed from inherit to border-box for consistency */
-}
-
-/* App Container */
 .app-container {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Make app-container take available space from #root */
-  width: 100%; /* Ensure full width */
+  height: 100vh;
+  width: 100vw; /* Full screen width */
+  max-width: 100vw; /* Prevent overflow */
+  overflow: hidden; /* Optional: prevent unwanted scrollbars */
 }
 
-/* Header Styles */
 .app-header {
-  background-color: #161b22; /* GitHub dark header */
-  padding: 1rem 1.5rem; /* Adjusted padding */
-  border-bottom: 1px solid #30363d; /* GitHub dark border */
+  background-color: #1a1a1a;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #333;
   text-align: center;
-  flex-shrink: 0; /* Prevent header from shrinking */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 1.8rem; /* Slightly smaller H1 */
-  color: #58a6ff; /* GitHub blue for accents */
+  color: #61dafb;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
 }
 
 .app-header p {
-  margin: 0.2rem 0 0; /* Adjusted margin */
-  font-size: 0.85rem; /* Slightly smaller subtext */
-  color: #8b949e; /* GitHub secondary text */
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
-/* Main Content Area */
 .main-content {
+  flex: 1;
   display: flex;
-  flex-grow: 1;
-  padding: 1rem;
-  gap: 1rem; /* Space between editor and review panes */
-  overflow: hidden; /* Prevent content from breaking layout, important for flex children */
-  min-height: 0; /* Fix for flex item overflow in some browsers */
+  flex-direction: row;
+  background-color: #121212;
+  overflow: hidden;
 }
 
-/* Editor Pane & Review Pane shared styles */
-.editor-pane, .review-pane {
-  flex: 1; /* Takes up half the space */
+.editor-pane,
+.review-pane {
+  flex: 1;
   display: flex;
-  flex-direction: column; /* Important for internal layout */
-  background-color: #161b22; /* Unified panel background */
+  flex-direction: column;
   padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #30363d;
-  min-width: 0; /* Prevent flex item from overflowing its container */
-  overflow: hidden; /* Children will handle their own scrolling */
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Editor Pane Specifics */
-.editor-toolbar {
+.editor-pane {
+  background-color: #1a1a1a;
+  border-right: 1px solid #222;
+}
+
+.review-pane {
+  background-color: #181818;
+}
+
+.editor-toolbar,
+.review-toolbar {
   display: flex;
-  justify-content: space-between; /* Space out language selector and buttons */
   align-items: center;
-  margin-bottom: 0.75rem;
-  flex-shrink: 0; /* Prevent toolbar from shrinking */
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .language-selector-wrapper {
   display: flex;
   align-items: center;
-  background-color: #21262d;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 0.3rem 0.5rem;
+  gap: 0.5rem;
 }
 
-.toolbar-icon {
-  font-size: 1.1rem;
-  margin-right: 0.4rem;
-  color: #8b949e; /* Icon color */
+.language-icon {
+  font-size: 1.2rem;
+  color: #61dafb;
 }
 
 .language-select {
-  background-color: transparent;
-  color: #c9d1d9;
+  background-color: #2a2a2a;
+  color: #fff;
   border: none;
-  outline: none;
-  font-size: 0.85rem;
-  padding: 0.1rem; /* Minimal padding */
-  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
 }
-.language-select option {
-  background-color: #21262d;
-  color: #c9d1d9;
-}
-
 
 .toolbar-buttons-group {
   display: flex;
-  gap: 0.5rem; /* Space between buttons in the group */
+  gap: 0.5rem;
 }
 
 .toolbar-button {
-  background-color: #21262d; /* Standard button background */
-  color: #c9d1d9;
-  border: 1px solid #30363d;
-  padding: 0.4rem 0.8rem;
+  background-color: #2d2d2d;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.7rem;
   border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   cursor: pointer;
   font-size: 0.85rem;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-  display: flex; /* For icon alignment */
-  align-items: center;
-  gap: 0.3rem; /* Space between icon and text */
+  transition: background 0.2s;
 }
 
-.toolbar-button:hover:not(:disabled) {
-  background-color: #30363d; /* Darker hover */
-  border-color: #484f58;
+.toolbar-button:hover {
+  background-color: #3a3a3a;
 }
-.toolbar-button:disabled {
+
+.toolbar-button.copied {
+  background-color: #4caf50;
+}
+
+.toolbar-button.copy-failed {
+  background-color: #f44336;
+}
+
+.code-editor-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #333;
+  padding: 0.5rem;
+}
+
+.review-button {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 6px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s ease;
+}
+
+.review-button:hover {
+  background-color: #21a1f1;
+}
+
+.review-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-
-.toolbar-button.copy-button.copied {
-  background-color: #238636; /* Green for copied */
-  border-color: #2ea043;
-  color: white;
-}
-.toolbar-button.copy-button.copy-failed {
-  background-color: #da3633; /* Red for failed copy */
-  border-color: #e95350;
-  color: white;
-}
-
-
-.code-editor-wrapper {
-  flex-grow: 1;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-  background-color: #0d1117; /* Actual editor background, slightly darker */
-  display: flex; /* To make inner Editor component take full height */
-}
-
-.code-editor-wrapper > div { /* Targets the direct child div of react-simple-code-editor */
-  flex-grow: 1;
-  overflow: auto !important;
-  min-height: 200px; /* Ensure it has a minimum height */
-}
-
-.editor-textarea, .editor-pre { /* Targets textarea and pre inside react-simple-code-editor */
-  outline: none !important;
-  caret-color: #58a6ff !important;
-  height: 100% !important; /* Ensure full height */
-  margin: 0 !important;
-  padding: 12px !important; /* Match padding from Editor component */
-  font-family: "Fira code", "Fira Mono", monospace !important; /* Ensure font props */
-  font-size: 15px !important; /* Ensure font props */
-  line-height: 1.5 !important; /* Consistent line height */
-  /* background-color: #0d1117 !important; Ensure background */
-  color: #d4d4d4 !important; /* Ensure text color */
-}
-
-/* PrismJS Syntax Highlighting Overrides */
-.code-editor-wrapper pre[class*="language-"] code[class*="language-"],
-.code-editor-wrapper pre[class*="language-"] {
-  text-shadow: none !important; /* Remove any text shadow if present from theme */
-  background: none !important; /* Editor wrapper handles background */
-}
-/* Add your specific token overrides here if needed, matching previous style */
-.token.comment, .token.block-comment, .token.prolog, .token.doctype, .token.cdata { color: #6a737d; }
-.token.punctuation { color: #c9d1d9; }
-.token.tag, .token.attr-name, .token.namespace, .token.deleted { color: #e06c75; }
-.token.function-name, .token.class-name, .token.maybe-class-name { color: #61afef; }
-.token.boolean, .token.number, .token.function { color: #d19a66; }
-.token.property, .token.constant, .token.symbol { color: #56b6c2; }
-.token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin { color: #c678dd; }
-.token.string, .token.char, .token.attr-value, .token.regex, .token.variable { color: #98c379; }
-.token.operator, .token.entity, .token.url { color: #abb2bf; }
-.token.important, .token.bold { font-weight: bold; }
-.token.italic { font-style: italic; }
-.token.entity { cursor: help; }
-
-
-.review-button {
-  background-color: #238636; /* GitHub green for primary action */
-  color: white;
-  border: 1px solid #2ea043;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  margin-top: 1rem; /* Space above the button */
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  flex-shrink: 0; /* Prevent button from shrinking */
-}
-
-.review-button:hover:not(:disabled) {
-  background-color: #2ea043;
-  border-color: #3fb950;
-}
-
-.review-button:disabled {
-  background-color: #21262d;
-  border-color: #30363d;
-  color: #8b949e;
-  cursor: not-allowed;
-}
-
-.loading-icon {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Review Pane Specifics */
-.review-pane {
-  overflow-y: hidden; /* Let .markdown-display or placeholders handle scroll */
-}
-
-.review-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem; /* Consistent with editor toolbar */
-  border-bottom: 1px solid #30363d;
-  padding-bottom: 0.75rem; /* Space below title and button */
-  flex-shrink: 0; /* Prevent toolbar from shrinking */
-}
-
-.review-pane h2 {
-  margin: 0; /* Removed default margins */
-  color: #58a6ff;
-  font-size: 1.25rem;
-  line-height: 1; /* Align with button */
-}
-
-.error-message {
-  background-color: rgba(248, 81, 73, 0.1);
-  color: #f85149;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  border: 1px solid rgba(248, 81, 73, 0.4);
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  display: flex; /* Align icon and text */
-  align-items: center;
-  flex-shrink: 0; /* Prevent from shrinking if content is large */
-}
-
-.loading-placeholder, .empty-review-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1; /* Take remaining space */
-  color: #8b949e;
-  text-align: center;
-  padding: 1rem; /* Padding for content */
-  overflow-y: auto; /* Scroll if content too large */
-}
-.loading-placeholder .loading-subtext {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: #6a737d;
-}
-
-.loading-icon-large {
-  font-size: 2.5rem;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
-}
-
 .markdown-display {
-  font-size: 0.9rem;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #333;
   line-height: 1.6;
-  flex-grow: 1; /* Take remaining space */
-  overflow-y: auto; /* Scroll long reviews */
-  padding-right: 0.5rem; /* Space for scrollbar */
-}
-
-.markdown-display h1, .markdown-display h2, .markdown-display h3,
-.markdown-display h4, .markdown-display h5, .markdown-display h6 {
-  color: #58a6ff;
-  border-bottom: 1px solid #30363d;
-  padding-bottom: 0.3em;
-  margin-top: 1.5em;
-  margin-bottom: 1em;
-}
-.markdown-display h1 { font-size: 1.8em; }
-.markdown-display h2 { font-size: 1.5em; }
-.markdown-display h3 { font-size: 1.3em; }
-
-
-.markdown-display p {
-  margin-bottom: 1rem;
-}
-
-.markdown-display code:not(pre > code) { /* Inline code */
-  background-color: rgba(177, 186, 196, 0.15);
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  border-radius: 6px;
-  color: #c9d1d9;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.9rem;
+  color: #f0f0f0;
 }
 
 .markdown-display pre {
-  background-color: #0d1117;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #30363d;
   overflow-x: auto;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #2b2b2b;
+  border-radius: 6px;
 }
 
-.markdown-display pre code {
-  font-family: "Fira code", "Fira Mono", monospace;
-  font-size: 0.875rem;
-  background: none !important;
-  padding: 0 !important;
-  color: #c9d1d9 !important;
-  text-shadow: none !important;
+.error-message {
+  color: #ff6b6b;
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  background-color: #2a0000;
+  border-radius: 6px;
+  border: 1px solid #aa2222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
-/* Markdown code block syntax highlighting tokens (match editor) */
-.markdown-display pre .token.comment, .markdown-display pre .token.block-comment, .markdown-display pre .token.prolog, .markdown-display pre .token.doctype, .markdown-display pre .token.cdata { color: #6a737d !important; }
-.markdown-display pre .token.punctuation { color: #c9d1d9 !important; }
-.markdown-display pre .token.tag, .markdown-display pre .token.attr-name, .markdown-display pre .token.namespace, .markdown-display pre .token.deleted { color: #e06c75 !important; }
-.markdown-display pre .token.function-name, .markdown-display pre .token.class-name, .markdown-display pre .token.maybe-class-name { color: #61afef !important; }
-.markdown-display pre .token.boolean, .markdown-display pre .token.number, .markdown-display pre .token.function { color: #d19a66 !important; }
-.markdown-display pre .token.property, .markdown-display pre .token.constant, .markdown-display pre .token.symbol { color: #56b6c2 !important; }
-.markdown-display pre .token.selector, .markdown-display pre .token.important, .markdown-display pre .token.atrule, .markdown-display pre .token.keyword, .markdown-display pre .token.builtin { color: #c678dd !important; }
-.markdown-display pre .token.string, .markdown-display pre .token.char, .markdown-display pre .token.attr-value, .markdown-display pre .token.regex, .markdown-display pre .token.variable { color: #98c379 !important; }
-.markdown-display pre .token.operator, .markdown-display pre .token.entity, .markdown-display pre .token.url { color: #abb2bf !important; }
 
-
-/* Footer Styles */
-.app-footer {
-  background-color: #161b22;
-  padding: 0.8rem 1.5rem; /* Adjusted padding */
-  border-top: 1px solid #30363d;
+.loading-placeholder,
+.empty-review-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
   text-align: center;
-  font-size: 0.75rem; /* Slightly smaller footer text */
-  color: #8b949e;
-  flex-shrink: 0; /* Prevent footer from shrinking */
+  padding: 2rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #333;
 }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
+.loading-placeholder .loading-icon-large {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.app-footer {
+  background-color: #1a1a1a;
+  padding: 0.5rem;
+  text-align: center;
+  border-top: 1px solid #333;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+@media screen and (max-width: 768px) {
   .main-content {
     flex-direction: column;
-    padding: 0.75rem; /* Adjusted padding */
-    overflow: auto; /* Allow main content to scroll if children overflow when stacked */
   }
 
-  .editor-pane, .review-pane {
-    margin-bottom: 1rem;
-    max-height: none; /* Allow panes to grow as needed */
+  .editor-pane {
+    border-right: none;
+    border-bottom: 1px solid #222;
   }
-  .review-pane {
-    margin-bottom: 0;
-    /* Consider a max-height for review pane on mobile if it can get very long */
-    /* max-height: 60vh; */
-  }
-  .code-editor-wrapper > div { /* react-simple-code-editor inner div */
-    min-height: 250px; /* Adjust min height for editor on smaller screens */
-  }
-
-  .app-header h1 { font-size: 1.6rem; }
-  .app-header p { font-size: 0.8rem; }
-}
-
-@media (max-width: 600px) {
-  .editor-pane, .review-pane {
-    padding: 0.75rem;
-  }
-  .editor-toolbar {
-    flex-direction: column; /* Stack language selector and buttons */
-    align-items: stretch; /* Make children full width */
-    gap: 0.5rem;
-  }
-  .language-selector-wrapper {
-    justify-content: space-between; /* Ensure icon and select are spaced */
-  }
-  .toolbar-buttons-group {
-    justify-content: space-between; /* Space out buttons if they wrap */
-  }
-  .toolbar-button {
-    flex-grow: 1; /* Allow buttons to grow if needed */
-    justify-content: center; /* Center text/icon in button */
-  }
-
-  .review-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-  .app-header { padding: 0.75rem 1rem; }
-  .app-footer { padding: 0.75rem 1rem; }
 }
