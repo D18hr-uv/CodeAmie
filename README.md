@@ -78,7 +78,3 @@ The project is a monorepo with two main parts:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue for any bugs or feature requests.
-
-## License
-
-This project is open-source (e.g., MIT License - specify if different).

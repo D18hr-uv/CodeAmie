@@ -13,7 +13,6 @@ module.exports.getReview = async (req, res) => {
         // For now, let's make it required for clarity, aligning with frontend sending it.
         return res.status(400).json({ message: "Language is required" });
     }
-
     try {
         const response = await aiService(code, language);
         res.send(response);

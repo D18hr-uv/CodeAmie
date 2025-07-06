@@ -214,7 +214,7 @@ function App() {
         </div>
         <div className="review-pane">
           <div className="review-toolbar">
-            <h2>AI Review</h2>
+            <h3 style={{'margin': 0}}>AI Review</h3>
             {review && !error && (
               <button
                 onClick={() => copyToClipboard(review, 'review')}
