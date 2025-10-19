@@ -14,8 +14,12 @@ module.exports.getReview = async (req, res) => {
         return res.status(400).json({ message: "Language is required" });
     }
     try {
-        const response = await aiService(code, language);
-        res.send(response);
+        res.setHeader('Content-Type', 'text/plain');
+
+        for await (const chunk of stream) {
+            res.write(chunk.text());
+        }
+        res.end();
     } catch (error) {
         console.error("Error in AI controller getting review:", error);
         // Send a generic error message or more specific if available and safe

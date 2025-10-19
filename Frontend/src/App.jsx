@@ -23,7 +23,6 @@ import 'prismjs/components/prism-jsx';
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css"; // For Markdown code blocks
-import axios from 'axios';
 import './App.css';
 
 // Import icons
@@ -75,11 +74,40 @@ function App() {
     const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
     try {
-      const response = await axios.post(`${backendURL}/ai/get-review`, {
+      const response = await fetch(`${backendURL}/ai/get-review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
         code,
         language: selectedLanguage.value,
+        }),
       });
-      setReview(response.data);
+
+      if (!response.body) {
+        throw new Error("Response body is null");
+      }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      reader.read().then(function processText({ done, value }) {
+        if (done) {
+          setIsLoading(false)
+          return;
+        }
+
+        const chunk = decoder.decode(value);
+        setReview((prev) => prev + chunk)
+
+        return reader.read().then(processText);
+      });
+
+
     } catch (err) {
       console.error("Error fetching review:", err);
       let errorMessage = 'Failed to fetch review. Please try again.';
@@ -89,9 +117,7 @@ function App() {
         errorMessage = `Error: ${err.message}`;
       }
       setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
   const clearCode = () => {

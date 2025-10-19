@@ -79,8 +79,6 @@ const modelConfig = {
 const model = genAI.getGenerativeModel(modelConfig);
 
 async function generateReviewForCode(code, language = "unknown") {
-    // Sanitize language string to prevent injection if it were used in a more complex way later.
-    // For current use (text in prompt), it's less critical but good practice.
     const sanitizedLanguage = language.replace(/[^a-zA-Z0-9+#-]/g, ''); // Allow common language chars like C++, C#
 
     const promptWithLanguageContext = `
@@ -93,20 +91,11 @@ ${code}
 
     try {
         console.log(`Requesting review for ${sanitizedLanguage} code...`);
-        const result = await model.generateContent(promptWithLanguageContext);
+        const result = await model.generateContentStream(promptWithLanguageContext);
+        return result.stream
 
-        // It's good to check if response and text() exist
-        if (result && result.response && typeof result.response.text === 'function') {
-            const reviewText = result.response.text();
-            console.log("Review generated successfully.");
-            return reviewText;
-        } else {
-            console.error("Unexpected response structure from AI model:", result);
-            throw new Error("Failed to get a valid response from the AI model.");
-        }
     } catch (error) {
         console.error(`Error generating content with AI model for ${sanitizedLanguage} code:`, error);
-        // Check for specific API errors if the SDK provides them, e.g., error.status or error.code
         if (error.message.includes("API key not valid")) {
              throw new Error("AI service API key is invalid or missing. Please check server configuration.");
         }
