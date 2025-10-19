@@ -106,7 +106,7 @@ function MainApp() {
     setIsLoading(true);
     setReview('');
 
-    const backendURL = "/api";
+    const backendURL = import.meta.env.VITE_BACKEND_URL || "/api";
 
     try {
       const response = await axios.post(`${backendURL}/ai/get-review`, {
