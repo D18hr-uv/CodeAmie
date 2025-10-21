@@ -14,15 +14,21 @@ module.exports.getReview = async (req, res) => {
         return res.status(400).json({ message: "Language is required" });
     }
     try {
+        const stream = await aiService(code, language);
+        if (!stream) {
+            // If the stream is not created, it implies a failure in the service layer
+            // that was caught and handled, but we still need to send a response.
+            return res.status(500).json({ message: "Failed to get code review due to a service error." });
+        }
         res.setHeader('Content-Type', 'text/plain');
 
         for await (const chunk of stream) {
             res.write(chunk.text());
         }
         res.end();
+        
     } catch (error) {
         console.error("Error in AI controller getting review:", error);
-        // Send a generic error message or more specific if available and safe
         res.status(500).json({ message: "Failed to get code review due to an internal server error." });
     }
 };
