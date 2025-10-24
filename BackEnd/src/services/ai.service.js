@@ -10,7 +10,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY);
 
 // It's good practice to define the model configuration separately for clarity
 const modelConfig = {
-    model: "gemini-1.5-flash", // Updated to gemini-1.5-flash as per common availability
+    model: "gemini-pro", // Updated to gemini-1.5-flash as per common availability
                                  // Ensure this model is available to your API key
     systemInstruction: `
         Here’s a solid system instruction for your AI code reviewer:
